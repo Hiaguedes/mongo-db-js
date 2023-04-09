@@ -1,12 +1,14 @@
 import express from 'express'
 import HTTP_STATS from './httpStatus.js';
+import db from './config/connectDB.js';
+import livros from './models/Livro.js';
+
+db.on("error", console.log.bind(console, 'Error de conexao com o banco'));
+db.once("open", () => {
+    console.log('Conexao feita com sucesso');
+})
 
 const app = express();
-
-let livros = [
-    {id: 1, "titulo": "Senhor dos Aneis"},
-    {id: 2, "titulo": "O Hobbit"},
-];
 
 app.use(express.json())
 
@@ -16,9 +18,11 @@ app.get('/', (req, res) => {
 })
 
 app.get('/livros', (req, res) => {
-    console.log(livros);
+    livros.find((err, livros) => {
+        res.status(HTTP_STATS.OK).json(livros)
+        
+    })
 
-    res.status(HTTP_STATS.OK).send(livros)
 })
 
 app.post('/livros', (req, res) => {
