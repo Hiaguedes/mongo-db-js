@@ -66,6 +66,22 @@ class LivroController {
             }
         })
      }
+
+     static findByAuthor(req, res) {
+        const authorId = req.query.authorId;
+
+        livros.find({'author': authorId}, {})
+        .populate('author')
+        .exec((err, livros) => {
+            if(err){
+                res.status(HTTP_STATS.NOT_FOUND);
+                res.send({ message: `Problema ao buscar o livro pelo authorId: ${err}` });
+            } else {
+                res.status(HTTP_STATS.OK);
+                res.send(livros);
+            }
+        });
+     }
 }
 
 
