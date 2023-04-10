@@ -20,6 +20,21 @@ class LivroController {
 
         }
      }
+
+    static update(req, res) {
+    const id = req.params.id
+    livros.findByIdAndUpdate(id, {
+        $set: req.body,
+    }, (err) => {
+        if(err){
+            res.status(HTTP_STATS.SERVER_ERROR);
+            res.send({ message: `Problema ao atualizar o livro: ${err}` });
+        }else {
+            res.status(HTTP_STATS.OK);
+            res.send({ message: 'Livro atualizado com sucesso' })
+        }
+    })
+     }
 }
 
 export default LivroController;
