@@ -7,8 +7,18 @@ class LivroController {
             res.status(HTTP_STATS.OK).json(livros)
             
         })
+     }
 
-        return livros;
+     static async post(req, res) {
+        try {
+            const livro = new livros(req.body);
+            await livro.save();
+            res.status(HTTP_STATS.CREATED).send(livro.toJSON())
+        } catch (err) {
+            res.status(HTTP_STATS.SERVER_ERROR);
+            res.send({ message: `Error na hora de salvar o livro: ${err?.message}` })
+
+        }
      }
 }
 

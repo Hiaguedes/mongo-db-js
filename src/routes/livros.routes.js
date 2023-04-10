@@ -5,5 +5,6 @@ const router = express.Router()
 
 router
     .get("/livros", LivroController.getAll)
+    .post("/livros", LivroController.post)
 
 export default router;
