@@ -49,6 +49,20 @@ class LivroController {
             }
         })
      }
+
+     static delete(req, res) {
+        const id = req.params.id;
+
+        livros.findByIdAndDelete(id, (err) => {
+            if(err){
+                res.status(HTTP_STATS.NOT_FOUND);
+                res.send({ message: `Problema ao buscar o livro pelo Id: ${err}` });
+            } else {
+                res.status(HTTP_STATS.OK);
+                res.send({ message: 'Livro deletado com sucesso' });
+            }
+        })
+     }
 }
 
 
