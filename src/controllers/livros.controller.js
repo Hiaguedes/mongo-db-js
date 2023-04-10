@@ -3,9 +3,10 @@ import HTTP_STATS from "../httpStatus.js";
 
 class LivroController {
      static getAll(req, res) {
-        livros.find((err, livros) => {
+        livros.find()
+        .populate('author')
+        .exec((err, livros) => {
             res.status(HTTP_STATS.OK).json(livros)
-            
         })
      }
 
@@ -39,7 +40,9 @@ class LivroController {
      static findById(req, res) {
         const id = req.params.id;
 
-        livros.findById(id, (err, livros) => {
+        livros.findById(id)
+        .populate('author')
+        .exec((err, livros) => {
             if(err){
                 res.status(HTTP_STATS.NOT_FOUND);
                 res.send({ message: `Problema ao buscar o livro pelo Id: ${err}` });
